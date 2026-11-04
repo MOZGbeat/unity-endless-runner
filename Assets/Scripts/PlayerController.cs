@@ -60,10 +60,10 @@ public class PlayerController : MonoBehaviour
     public float lineDistance = 4;
     const float maxSpeed = 90;
     Animator anim;
-    CameraControlller trigCamStartAnim;
+    CameraController trigCamStartAnim;
     GameObject Bon_Panel;
     GameObject Bon_Immortal_Panel;
-
+    private bool secondChangeUsed = false;
 
     void Start()
     {
@@ -92,8 +92,8 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         controller = GetComponent<CharacterController>();
-        trigCamStartAnim = cameraObj.GetComponent<CameraControlller>();
-        //Time.timeScale = 1;
+        trigCamStartAnim = cameraObj.GetComponent<CameraController>();
+        Time.timeScale = 1;
         coins = PlayerPrefs.GetInt("coins");
         coinsText.text = coins.ToString();
 
@@ -210,10 +210,17 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
-            SecondChancePanel.playerPosition = transform.position;
 
-            Time.timeScale = 0;
-            secondChancePanel.SetActive(true);
+            if (!secondChangeUsed)
+            {
+                SecondChancePanel.playerPosition = transform.position;
+                Time.timeScale = 0;
+                secondChancePanel.SetActive(true);
+                secondChangeUsed = true;
+            } else 
+            {
+                EndRun();
+            }
         }
     }
 
@@ -227,7 +234,8 @@ public class PlayerController : MonoBehaviour
         controller.enabled = false;
 
         secondChancePanel.SetActive(false);
-        losePanel.SetActive(true);
+        //losePanel.SetActive(true);
+        StartCoroutine(ShowLosePanel());
         int lastRunScore = int.Parse(scoreScript.scoreText.text);
         PlayerPrefs.SetInt("lastRunScore", lastRunScore);
         PlayerName.GetComponent<Text>().text = PlayerPrefs.GetString("PlayerName");
@@ -239,6 +247,12 @@ public class PlayerController : MonoBehaviour
         Magnit.MagnitOn = false;
         bonuse_DoubleJump = false;
         bonuse_Immortal = false;
+    }
+
+    IEnumerator ShowLosePanel()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        losePanel.SetActive(true);
     }
 
 

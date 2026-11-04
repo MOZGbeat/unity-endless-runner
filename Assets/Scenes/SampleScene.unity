@@ -17379,6 +17379,7 @@ GameObject:
   - component: {fileID: 963194233}
   - component: {fileID: 963194231}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194234}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -17547,6 +17548,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   secondChancePanel: {fileID: 1488731787}
   CoinText: {fileID: 923338961}
+--- !u!225 &963194234
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &972072429
 PrefabInstance:
   m_ObjectHideFlags: 0
