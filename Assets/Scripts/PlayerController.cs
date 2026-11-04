@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
     CameraController trigCamStartAnim;
     GameObject Bon_Panel;
     GameObject Bon_Immortal_Panel;
-    private bool secondChangeUsed = false;
+    private bool secondChanceUsed;
 
     void Start()
     {
@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour
         }
 
         speed = 0;
+        secondChanceUsed = false;
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         controller = GetComponent<CharacterController>();
@@ -204,6 +205,9 @@ public class PlayerController : MonoBehaviour
     {
         if (hit.gameObject.tag == "obstacle")
         {
+            if (Time.timeScale == 0)
+                return;
+
             if (bonuse_Immortal)
             {
                 Destroy(hit.gameObject);
@@ -211,12 +215,12 @@ public class PlayerController : MonoBehaviour
             }
 
 
-            if (!secondChangeUsed)
+            if (!secondChanceUsed)
             {
                 SecondChancePanel.playerPosition = transform.position;
-                Time.timeScale = 0;
                 secondChancePanel.SetActive(true);
-                secondChangeUsed = true;
+                Time.timeScale = 0;
+                secondChanceUsed = true;
             } else 
             {
                 EndRun();
@@ -234,7 +238,6 @@ public class PlayerController : MonoBehaviour
         controller.enabled = false;
 
         secondChancePanel.SetActive(false);
-        //losePanel.SetActive(true);
         StartCoroutine(ShowLosePanel());
         int lastRunScore = int.Parse(scoreScript.scoreText.text);
         PlayerPrefs.SetInt("lastRunScore", lastRunScore);
